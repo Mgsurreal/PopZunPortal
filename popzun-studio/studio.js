@@ -689,7 +689,7 @@
   async function buildArticleHtml(data){
     const template = await loadTemplate();
     if(!template) throw new Error("Modelo _modelos/artigo-modelo-popzun-studio.html nao encontrado.");
-    const siteUrl = normalizeSiteUrl($("#siteUrl").value);
+    const siteUrl = "https://popzun.com.br";
     const canonical = `${siteUrl}/artigos/${data.slug}/`;
     const thumb = `/assets/img/posts/${data.slug}/thumb.jpg`;
     const og = `${siteUrl}/assets/img/posts/${data.slug}/og.jpg`;
@@ -700,11 +700,12 @@
     const replacements = {
       "{{SLUG}}": data.slug,
       "{{TITLE}}": escapeHtml(data.title),
-      "{{SEO_TITLE}}": escapeHtml(`${data.title} - PopZun`),
+      "{{SEO_TITLE}}": escapeHtml(`${data.title} | PopZun`),
       "{{DESCRIPTION}}": escapeHtml(metaDescription),
-      "{{OG_TITLE}}": escapeHtml(`${data.title} - PopZun`),
+      "{{OG_TITLE}}": escapeHtml(data.title),
       "{{OG_DESCRIPTION}}": escapeHtml(ogDescription),
       "{{OG_IMAGE}}": og,
+      "{{OG_IMAGE_ALT}}": escapeHtml(`Imagem de compartilhamento do artigo ${data.title}`),
       "{{TWITTER_TITLE}}": escapeHtml(data.title),
       "{{TWITTER_DESCRIPTION}}": escapeHtml(ogDescription),
       "{{CANONICAL_URL}}": canonical,
@@ -862,7 +863,7 @@
   }
 
   async function updateSitemap(slug){
-    const siteUrl = normalizeSiteUrl($("#siteUrl").value);
+    const siteUrl = "https://popzun.com.br";
     const url = `${siteUrl}/artigos/${slug}/`;
     let xml = "";
     try{ xml = await readText(["sitemap.xml"]); }
@@ -1050,7 +1051,7 @@
     });
     let sitemap = "";
     try{ sitemap = await readText(["sitemap.xml"]); }catch(e){}
-    const siteUrl = normalizeSiteUrl($("#siteUrl").value);
+    const siteUrl = "https://popzun.com.br";
     state.posts.forEach(post => {
       if(!sitemap.includes(`${siteUrl}/artigos/${post.slug}/`)) checks.push({ level: "warn", text: `Sitemap sem artigo: ${post.slug}` });
     });
