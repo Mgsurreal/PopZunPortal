@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentação PopZun</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root{--bg:#0f1115;--card:#171a21;--text:#f2f3f5;--muted:#a7adba;--brand:#ff365a;--line:#262b36;--code:#0b0d11}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    header{border-top:6px solid var(--brand);border-bottom:1px solid var(--line);padding:32px 20px;background:#11141b;position:sticky;top:0;z-index:2}
+    header h1{margin:0;font-size:28px} header p{margin:6px 0 0;color:var(--muted)}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:300px 1fr;gap:24px}
+    nav{position:sticky;top:125px;align-self:start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+    nav a{display:block;color:var(--text);text-decoration:none;padding:9px 10px;border-radius:10px;font-size:14px}
+    nav a:hover{background:#232833;color:#fff}
+    main{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px}
+    section{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:28px} section:last-child{border-bottom:0;margin-bottom:0}
+    h2{font-size:24px;margin:0 0 12px} h3{font-size:18px;margin:22px 0 8px} p{margin:0 0 12px;color:#e5e7eb} ul{color:#e5e7eb} li{margin:4px 0}
+    code,pre{background:var(--code);border:1px solid var(--line);border-radius:10px;color:#e7e9ee} code{padding:2px 6px} pre{padding:14px;overflow:auto}
+    .pill{display:inline-block;background:#2b1420;color:#ffb3c0;border:1px solid #602234;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;margin-right:6px}
+    .note{background:#161f2d;border-left:4px solid var(--brand);padding:14px;border-radius:10px;margin:14px 0;color:#e5e7eb}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .box{background:#12151c;border:1px solid var(--line);border-radius:14px;padding:14px}
+    .box strong{display:block;margin-bottom:4px}
+    footer{max-width:1180px;margin:0 auto;color:var(--muted);padding:0 20px 30px}
+    @media(max-width:900px){.wrap{grid-template-columns:1fr}nav{position:relative;top:auto}header{position:relative}.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Documentação interna — PopZun</h1>
+  <p>Portal estático de entretenimento + PopZun Studio + monetização.</p>
+</header>
+<div class="wrap">
+  <nav>
+    <a href="#visao">01. Visão geral</a>
+    <a href="#estrutura">02. Estrutura do site</a>
+    <a href="#studio">03. PopZun Studio</a>
+    <a href="#publicacao">04. Fluxo de publicação</a>
+    <a href="#editorial">05. Editorial</a>
+    <a href="#seo">06. SEO/Open Graph</a>
+    <a href="#thumbs">07. Thumbs e imagens</a>
+    <a href="#monetizacao">08. Monetização</a>
+    <a href="#operacao">09. Operação diária</a>
+    <a href="#checklist">10. Checklist</a>
+    <a href="#admin">11. Área ADM futura</a>
+    <a href="#perfis">12. Perfis e Saiba Mais</a>
+    <a href="#culinaria">13. Culinária</a>
+  </nav>
+  <main>
+    <section id="visao">
+      <h2>01. Visão geral</h2>
+      <p><strong>PopZun</strong> é um portal popular de entretenimento, fofoca, curiosidades, nostalgia, famosos, internet, futebol, TV e assuntos virais.</p>
+      <p>Objetivo: atrair tráfego de redes sociais, principalmente Facebook, e monetizar com anúncios e afiliados.</p>
+      <div class="note">Regra central: conteúdo chamativo sim, fake news não.</div>
+      <p><span class="pill">Marca</span> PopZun</p>
+      <p><span class="pill">Slogan</span> O burburinho da internet</p>
+    </section>
+
+    <section id="estrutura">
+      <h2>02. Estrutura do site</h2>
+      <p>Site estático em HTML, CSS e JavaScript puro, pensado para GitHub + Cloudflare Pages.</p>
+      <pre><code>/popzun/
+  index.html
+  artigos/
+  assets/css/
+  assets/js/posts.js
+  assets/img/posts/
+  popzun-studio/
+  sitemap.xml
+  robots.txt
+  ads.txt</code></pre>
+      <p>O arquivo <code>assets/js/posts.js</code> alimenta home, recentes, categorias, busca e relacionados.</p>
+    </section>
+
+    <section id="studio">
+      <h2>03. PopZun Studio</h2>
+      <p>O Studio é um publicador local. Ele roda no computador e gera arquivos estáticos para o site.</p>
+      <div class="grid">
+        <div class="box"><strong>Cria estrutura</strong> Pasta do artigo e imagens.</div>
+        <div class="box"><strong>Gera imagens</strong> Thumb, OG e internas.</div>
+        <div class="box"><strong>Publica HTML</strong> Página final do artigo.</div>
+        <div class="box"><strong>Atualiza listas</strong> posts.js e sitemap.xml.</div>
+      </div>
+      <p>Etapas: dados básicos, thumb/OG, imagens internas, conteúdo, publicar e verificar.</p>
+    </section>
+
+    <section id="publicacao">
+      <h2>04. Fluxo de publicação</h2>
+      <ol>
+        <li>Escolher pauta.</li>
+        <li>Confirmar em fonte confiável.</li>
+        <li>Criar título, resumo e slug.</li>
+        <li>Criar thumb impactante.</li>
+        <li>Colar artigo no Studio.</li>
+        <li>Publicar e testar home/categoria/artigo.</li>
+      </ol>
+      <pre><code>&lt;article class="article-content"&gt;
+  &lt;p&gt;Introdução curta.&lt;/p&gt;
+  &lt;h2&gt;Subtítulo&lt;/h2&gt;
+  &lt;p&gt;Texto.&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+    </section>
+
+    <section id="editorial">
+      <h2>05. Editorial</h2>
+      <p>Tom simples, direto e popular. O leitor precisa querer clicar, ler rápido, comentar e compartilhar.</p>
+      <ul>
+        <li>Famosos, fofoca e internet.</li>
+        <li>TV, reality e futebol.</li>
+        <li>Nostalgia e curiosidades.</li>
+        <li>Polêmica leve e assuntos comentáveis.</li>
+      </ul>
+    </section>
+
+    <section id="seo">
+      <h2>06. SEO/Open Graph</h2>
+      <p>Todo artigo precisa de title, description, canonical e tags Open Graph.</p>
+      <pre><code>&lt;meta property="og:title" content="Título - PopZun"&gt;
+&lt;meta property="og:description" content="Resumo real do artigo"&gt;
+&lt;meta property="og:image" content="https://popzun.com.br/assets/img/posts/slug/og.jpg"&gt;</code></pre>
+      <div class="note">Nunca usar slug como descrição social.</div>
+    </section>
+
+    <section id="thumbs">
+      <h2>07. Thumbs e imagens</h2>
+      <p>Thumb precisa dar impacto visual antes do título. Para posts reais, evitar imagem genérica.</p>
+      <ul>
+        <li>Alto contraste.</li>
+        <li>Rosto grande quando for famoso.</li>
+        <li>Texto curto quando fizer sentido.</li>
+        <li>Sem marcas d’água.</li>
+        <li>Sem copiar imagem de terceiros.</li>
+      </ul>
+    </section>
+
+    <section id="monetizacao">
+      <h2>08. Monetização</h2>
+      <p>Receita planejada: anúncios limpos + native + afiliados por categoria.</p>
+      <p>Evitar popup, popunder, onclick, redirecionamento e anúncios adultos.</p>
+      <p>Ideia futura: páginas de achadinhos e blocos de afiliados no meio/fim do artigo.</p>
+    </section>
+
+    <section id="operacao">
+      <h2>09. Operação diária</h2>
+      <p>Rotina: buscar tendências, confirmar fonte, criar pauta, produzir post, divulgar nas redes e observar desempenho.</p>
+      <p>Meta inicial: constância, descobrir assuntos que clicam, ajustar thumb e monetizar sem destruir a experiência.</p>
+    </section>
+
+    <section id="checklist">
+      <h2>10. Checklist antes de subir</h2>
+      <ul>
+        <li>10 posts reais publicados.</li>
+        <li>Posts de exemplo removidos.</li>
+        <li>Studio publicando sem erro.</li>
+        <li>posts.js e sitemap atualizados.</li>
+        <li>Open Graph correto.</li>
+        <li>Anúncios sem popup.</li>
+        <li>Teste mobile e desktop.</li>
+      </ul>
+    </section>
+
+    <section id="admin">
+      <h2>11. Área ADM futura</h2>
+      <p>Área interna pode ficar para depois. Por enquanto, a documentação pode ficar numa pasta sem link público.</p>
+      <div class="note">Senha em HTML/JS não é segurança real. Serve só para evitar acesso por acidente. Não guardar dados sensíveis.</div>
+    </section>
+    <section id="perfis">
+      <h2>12. Perfis e Saiba Mais</h2>
+      <p>Artigos continuam rápidos e diretos. Perfis são páginas permanentes de apoio para explicar quem é uma personalidade citada em uma matéria.</p>
+      <ul>
+        <li>Perfis aumentam tempo no site, criam links internos e podem monetizar com anúncios na lateral.</li>
+        <li>O card Saiba Mais dentro dos artigos leva para o perfil relacionado.</li>
+        <li>Perfis usam imagem neutra, sem texto de notícia; thumbs fortes ficam nos artigos.</li>
+        <li>O sistema é estático e simples, sem banco de dados.</li>
+      </ul>
+    </section>
+    <section id="culinaria">
+      <h2>13. Culinária</h2>
+      <p>Culinária é uma categoria evergreen para receitas fáceis, rápidas, populares e compartilháveis.</p>
+      <ul>
+        <li>Temas fortes: air fryer, sobremesas fáceis, receitas de 3 ingredientes, marmitas, lanches rápidos, receitas virais, almoço barato e jantar rápido.</li>
+        <li>A categoria pode receber links afiliados futuramente, principalmente para utensílios, formas, panelas, air fryer, ingredientes e produtos de cozinha.</li>
+        <li>O tom continua simples, direto e útil para o dia a dia.</li>
+      </ul>
+    </section>  </main>
+</div>
+<footer>
+  Documentação PopZun — arquivo interno do projeto.
+</footer>
+</body>
+</html>

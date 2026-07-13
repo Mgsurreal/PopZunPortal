@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{SEO_TITLE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+  <link rel="canonical" href="{{CANONICAL_URL}}">
+  <meta property="og:title" content="{{OG_TITLE}}">
+  <meta property="og:description" content="{{OG_DESCRIPTION}}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{CANONICAL_URL}}">
+  <meta property="og:image" content="{{OG_IMAGE}}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{TWITTER_TITLE}}">
+  <meta name="twitter:description" content="{{TWITTER_DESCRIPTION}}">
+  <meta name="twitter:image" content="{{OG_IMAGE}}">
+  <link rel="icon" href="/assets/img/favicon.png">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body data-slug="{{SLUG}}">
+  <div class="site-topbar"></div>
+  <header class="header">
+    <div class="header-inner">
+      <button class="menu-btn" data-menu-btn aria-label="Abrir menu" aria-expanded="false"><span class="hamburger"></span></button>
+      <a class="logo" href="/"><span class="logo-mark">PZ</span><span>POPZUN</span></a>
+      <nav class="nav" aria-label="principal"><a href="/em-alta/">Em Alta</a><a href="/recentes/">Recentes</a><a href="/categoria/famosos/">Famosos</a><a href="/categoria/tv-e-reality/">TV/Reality</a><a href="/categoria/internet/">Internet</a><a href="/categoria/futebol/">Futebol</a><a href="/categoria/culinaria/">Culinária</a><a href="/categoria/polemicas/">Polêmicas</a><a href="/zunzun/" class="live">ZunZun</a></nav>
+      <div class="header-actions"><button class="icon-btn" data-search-btn aria-label="Pesquisar">Buscar</button></div>
+    </div>
+    <div class="search-panel" data-search-panel>
+      <form data-search-form><input type="search" placeholder="Buscar assunto, famoso, curiosidade..."><button>Buscar</button></form>
+    </div>
+  </header>
+  <aside class="mobile-panel" data-mobile-panel><a href="/em-alta/">Em Alta</a><a href="/recentes/">Recentes</a><a href="/categoria/famosos/">Famosos</a><a href="/categoria/tv-e-reality/">TV/Reality</a><a href="/categoria/internet/">Internet</a><a href="/categoria/futebol/">Futebol</a><a href="/categoria/culinaria/">Culinária</a><a href="/categoria/polemicas/">Polêmicas</a><a href="/zunzun/">ZunZun</a><a href="/categoria/curiosidades/">Curiosidades</a><a href="/categoria/nostalgia/">Nostalgia</a><a href="/assuntos/">Assuntos</a><a href="/tags/">Tags</a></aside>
+  <main class="container">
+    <div class="layout">
+      <article class="article">
+        <a class="article-cat" href="{{CATEGORY_URL}}">{{EMOJI}} {{CATEGORY}}</a>
+        <h1>{{TITLE}}</h1>
+        <div class="article-info"><span>{{DATE}}</span><span>&bull;</span><span>Leitura rapida</span><span>&bull;</span><span>{{AUTHOR}}</span></div>
+        <div class="author"><span class="author-avatar">PZ</span><span>Conteudo PopZun</span></div>
+        <div class="hero"><img src="{{THUMB}}" alt="Imagem ilustrativa: {{TITLE}}"></div>
+        {{ARTICLE_CONTENT}}
+        <div class="quick-tags">{{TAGS_HTML}}</div>
+        <div class="share-box">
+          <a class="whats" data-share-url="whatsapp" target="_blank" rel="noopener">Compartilhar no WhatsApp</a>
+          <a class="face" data-share-url="facebook" target="_blank" rel="noopener">Compartilhar no Facebook</a>
+          <button data-copy-link>Copiar link</button>
+        </div>
+        <section class="comments">
+          <h3>Compartilhe e continue a conversa</h3>
+          <p>Gostou, discordou ou lembrou de alguém? Compartilhe o artigo e comente nas redes sociais do PopZun.</p>
+          <!--
+          <div id="fb-root"></div>
+          <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&amp;version=v20.0"></script>
+          <div class="fb-comments" data-href="{{CANONICAL_URL}}" data-width="100%" data-numposts="5"></div>
+          -->
+        </section>
+        <section class="related"><h3>Mais assuntos para continuar lendo</h3><div class="related-grid" data-related>{{RELATED_POSTS}}</div></section>
+      </article>
+      <aside class="sidebar">
+        <div><div class="ad-label">Anuncio</div><div class="ad-box ad-vertical" data-ad-slot="sidebar-300x600"><div><strong>300x600</strong>banner vertical<br>AdSense / Adsterra / Monetag<div class="ad-note">Cole o codigo real aqui depois.</div></div></div></div>
+        <div class="trend-box"><h3>ZunZun rapido</h3>{{TRENDING_LINKS}}</div>
+        <div><div class="ad-label">Anuncio</div><div class="ad-box ad-square" data-ad-slot="sidebar-300x250"><div><strong>300x250</strong>banner lateral<div class="ad-note">Placeholder seguro.</div></div></div></div>
+      </aside>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-inner"><div><strong>POPZUN</strong><br><span>O burburinho da internet.</span></div><div class="footer-links"><a href="/sobre/">Sobre</a><a href="/contato/">Contato</a><a href="/privacidade/">Privacidade</a><a href="/cookies/">Cookies</a><a href="/termos/">Termos</a></div></div></footer>
+  <div class="bottom-ad" data-bottom-ad data-ad-slot="bottom-sticky"><div><strong>Anuncio fixo inferior</strong><br>espaco para banner horizontal fechavel</div><button data-close-bottom-ad aria-label="Fechar anuncio">&times;</button></div>  <button class="cookie" data-cookie-btn aria-label="Preferências de cookies">Cookies</button>
+  <div class="cookie-panel" data-cookie-panel>
+    <strong>Cookies</strong>
+    <p>Usamos cookies necessários para o site funcionar e, com sua permissão, cookies de analytics, publicidade e afiliados.</p>
+    <div class="cookie-actions">
+      <button data-cookie-accept>Aceitar</button>
+      <button class="secondary" data-cookie-reject>Recusar</button>
+      <button class="secondary" data-cookie-open-preferences>Preferências</button>
+    </div>
+    <div class="cookie-preferences" data-cookie-preferences-panel hidden>
+      <label><input type="checkbox" checked disabled> Cookies necessários <span>Sempre ativos para navegação, segurança e preferências básicas.</span></label>
+      <label><input type="checkbox" value="analytics" data-cookie-choice> Analytics <span>Ajuda a medir visitas e entender quais páginas funcionam melhor.</span></label>
+      <label><input type="checkbox" value="ads" data-cookie-choice> Publicidade <span>Permite anúncios personalizados quando houver rede de anúncios ativa.</span></label>
+      <label><input type="checkbox" value="affiliates" data-cookie-choice> Afiliados <span>Permite medição de cliques e conversões em links de parceiros.</span></label>
+      <button data-cookie-save>Salvar preferências</button>
+    </div>
+    <a class="cookie-policy-link" href="/cookies/">Ver Política de Cookies</a>
+  </div>
+  <script src="/assets/js/posts.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

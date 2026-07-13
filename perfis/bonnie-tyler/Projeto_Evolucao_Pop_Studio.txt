@@ -1,0 +1,126 @@
+Projeto: Evolução do Pop Studio para uma Plataforma de Produção Assistida por IA
+
+Contexto
+
+O Pop Studio é um CMS próprio para sites estáticos. Já cria estrutura de
+artigos, pastas, index.html por template, metadados (SEO/OG), thumbnails
+e publicação.
+
+Objetivo: evoluir para uma plataforma de produção de conteúdo assistida
+por IA, onde a IA realiza o trabalho operacional e o editor humano
+revisa e aprova.
+
+Filosofia
+
+-   A IA não substitui o editor.
+-   A IA economiza tempo.
+-   Toda publicação passa por aprovação humana.
+
+Fluxo
+
+1.  Descoberta automática de tendências
+
+-   Google Trends
+-   YouTube
+-   TikTok
+-   Reddit
+-   X
+-   Notícias
+-   Outras fontes
+
+Exibir: - assunto - popularidade - crescimento - categoria - fonte -
+justificativa
+
+2.  Seleção inteligente
+
+-   Compatibilidade com o portal
+-   Verificar duplicidade
+-   Potencial de tráfego
+-   Potencial SEO
+-   Potencial de monetização
+-   Prioridade da pauta
+
+3.  Geração completa
+
+-   Título SEO
+-   Título chamativo
+-   Subtítulo
+-   Slug
+-   Meta description
+-   Keywords
+-   Tags
+-   Categoria
+-   Artigo
+-   Links internos
+-   Sugestões de imagens
+
+4.  Thumbnail
+
+-   Gerar thumbnail baseada em templates
+-   Manter identidade visual
+-   Preparar integração futura com IA
+
+5.  Integração com Pop Studio
+
+-   Criar pasta
+-   Criar index.html
+-   Inserir conteúdo
+-   Atualizar páginas
+-   Atualizar sitemap
+-   Atualizar RSS
+
+6.  Revisão humana
+
+-   Visualizar
+-   Editar
+-   Regenerar partes
+-   Trocar thumbnail
+-   Alterar título
+-   Rejeitar
+-   Aprovar
+
+Painel Kanban
+
+Tendências → Pautas aprovadas → Gerando artigo → Gerando thumbnail →
+Aguardando revisão → Em edição → Publicado → Desempenho
+
+Objetivo
+
+Transformar o Pop Studio em uma plataforma completa de produção de
+conteúdo, onde o editor atua como editor-chefe.
+
+Prioridades
+
+1.  Economia de tempo
+2.  Automação inteligente
+3.  Controle humano
+4.  Qualidade
+5.  Arquitetura modular
+
+Visão de longo prazo
+
+Administrar diversos portais usando a mesma infraestrutura.
+
+Cada portal poderá possuir: - identidade visual própria - templates
+próprios - categorias próprias - estilo editorial próprio
+
+Todos compartilharão o mesmo mecanismo de automação.
+
+Sugestões futuras
+
+Pensar o Pop Studio como um sistema modular:
+
+-   Editor
+-   Central de Produção (IA)
+-   Gerador de Thumbnails
+-   Gerenciador de Mídia
+-   SEO
+-   Analytics
+-   Agendador de Publicações
+-   Gerenciador de Portais
+
+Também vale dar um nome para a área de IA, como “Central de Produção” ou
+“Redação IA”. Isso reforça a ideia de uma redação completa assistida por
+IA, e não apenas um botão para gerar artigos. Essa abordagem facilita a
+evolução futura do sistema e também agrega valor caso ele seja
+transformado em produto.

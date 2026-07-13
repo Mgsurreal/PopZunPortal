@@ -1,0 +1,4 @@
+# ads.txt provisório do PopZun
+# Quando uma rede de anúncios aprovar o site, cole aqui as linhas oficiais que ela fornecer.
+# Exemplo AdSense (NÃO usar sem trocar pelo ID real):
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

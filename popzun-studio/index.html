@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PopZun Studio</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="./studio.css">
+</head>
+<body>
+  <header class="studio-header">
+    <div>
+      <span class="eyebrow">CMS local</span>
+      <h1>PopZun Studio</h1>
+      <p>Crie artigos estaticos do PopZun sem backend, mantendo o site pronto para GitHub e Cloudflare Pages.</p>
+    </div>
+    <div class="project-card">
+      <span>Status do projeto</span>
+      <strong id="projectStatus">Nenhum projeto selecionado</strong>
+      <button id="selectProjectBtn" type="button" class="primary">Selecionar/Trocar Projeto</button>
+    </div>
+  </header>
+
+  <main class="studio-shell">
+    <section class="panel dashboard">
+      <div class="panel-title">
+        <div>
+          <span class="eyebrow">Dashboard</span>
+          <h2>Controle de publicacao</h2>
+        </div>
+        <div class="actions">
+          <button id="openSiteBtn" type="button">Abrir site</button>
+          <button id="newArticleBtn" type="button">Novo artigo</button>
+          <button id="openArticleBtn" type="button">Abrir artigo existente</button>
+          <button id="draftsBtn" type="button">Rascunhos</button>
+          <button id="backToArticleBtn" type="button">Voltar ao artigo atual</button>
+          <button id="verifyBtn" type="button">Verificar projeto</button>
+        </div>
+      </div>
+
+      <div class="config-grid">
+        <label>URL do site/local
+          <input id="siteUrl" type="url" placeholder="http://127.0.0.1:5500">
+        </label>
+        <label>Autor padrao
+          <input id="defaultAuthor" type="text" placeholder="Redacao PopZun">
+        </label>
+        <button id="saveConfigBtn" type="button">Salvar configuracao</button>
+      </div>
+      <p class="notice compact">Salvar configuracao guarda a URL usada no canonical/sitemap/Open Graph e o autor padrao dos proximos artigos.</p>
+
+      <div class="split">
+        <div>
+          <h3>Ultimos posts do posts.js</h3>
+          <div id="postsList" class="list empty">Selecione o projeto para carregar os posts.</div>
+        </div>
+        <div>
+          <h3>Log de acoes</h3>
+          <div id="logBox" class="log"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="existingPanel" class="panel hidden">
+      <div class="panel-title">
+        <div>
+          <span class="eyebrow">Editar</span>
+          <h2>Abrir artigo existente</h2>
+        </div>
+      </div>
+      <div id="existingList" class="list"></div>
+    </section>
+
+    <section id="draftsPanel" class="panel hidden">
+      <div class="panel-title">
+        <div>
+          <span class="eyebrow">Rascunhos</span>
+          <h2>Continuar publicacao</h2>
+        </div>
+      </div>
+      <div id="draftsList" class="list empty">Selecione o projeto para carregar os rascunhos.</div>
+    </section>
+
+    <section id="wizardPanel" class="panel hidden">
+      <div class="stepper" aria-label="Etapas">
+        <button type="button" class="step active" data-step-btn="1">1. Dados</button>
+        <button type="button" class="step" data-step-btn="2">2. Thumb</button>
+        <button type="button" class="step" data-step-btn="3">3. Imagens</button>
+        <button type="button" class="step" data-step-btn="4">4. HTML</button>
+        <button type="button" class="step" data-step-btn="5">5. Publicar</button>
+        <button type="button" class="step" data-open-verify="1">6. Verificador</button>
+      </div>
+
+      <div id="articleForm">
+        <section class="step-panel active" data-step="1">
+          <div class="panel-title">
+            <div>
+              <span class="eyebrow">Etapa 1</span>
+              <h2>Dados basicos</h2>
+            </div>
+            <button id="createStructureBtn" type="button" class="primary">Criar estrutura</button>
+          </div>
+
+          <div class="form-grid">
+            <label>Titulo do artigo *
+              <input id="title" required>
+            </label>
+            <label>Subtitulo/resumo curto *
+              <input id="desc" required>
+            </label>
+            <label>Categoria *
+              <select id="category" required>
+                <option value="">Escolha...</option>
+                <option>Em Alta</option>
+                <option>Famosos</option>
+                <option>TV e Reality</option>
+                <option>Internet</option>
+                <option>Futebol</option>
+                <option>Culinária</option>
+                <option>Curiosidades</option>
+                <option>Polêmicas</option>
+                <option>Nostalgia</option>
+                <option>ZunZun</option>
+              </select>
+            </label>
+            <label>Data *
+              <input id="date" required placeholder="09/07/2026">
+            </label>
+            <label>Autor *
+              <input id="author" required placeholder="Redacao PopZun">
+            </label>
+            <label>Slug *
+              <input id="slug" required>
+            </label>
+            <label>Tags
+              <input id="tags" placeholder="internet, famosos, viral">
+            </label>
+            <label>Emoji do card
+              <input id="emoji" maxlength="8" placeholder="🔥">
+            </label>
+            <label>Status
+              <select id="status">
+                <option value="draft">Rascunho</option>
+                <option value="published">Publicado</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="checks">
+            <label><input id="trending" type="checkbox" checked> trending</label>
+            <label><input id="recent" type="checkbox" checked> recent</label>
+            <label><input id="zunzun" type="checkbox"> zunzun</label>
+            <label><input id="featured" type="checkbox"> destaque</label>
+          </div>
+          <div id="slugWarning" class="notice muted">O slug sera gerado automaticamente pelo titulo.</div>
+          <div class="profile-fields">
+            <h3>Saiba Mais / Perfil relacionado</h3>
+            <p class="notice compact">Opcional. Se preencher nome e URL, o Studio adiciona um card de perfil no artigo publicado.</p>
+            <div class="form-grid">
+              <label>Nome do perfil
+                <input id="profileName" placeholder="Bonnie Tyler">
+              </label>
+              <label>URL do perfil
+                <input id="profileUrl" placeholder="/perfis/bonnie-tyler/">
+              </label>
+              <label>Texto curto do card
+                <input id="profileText" placeholder="Conheça a trajetória, músicas marcantes e curiosidades.">
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step="2">
+          <div class="panel-title">
+            <div>
+              <span class="eyebrow">Etapa 2</span>
+              <h2>Thumb e imagem social</h2>
+            </div>
+          </div>
+          <div class="media-grid">
+            <label class="drop-zone">Imagem principal
+              <input id="thumbInput" type="file" accept="image/*">
+            </label>
+            <div class="preview-box">
+              <img id="thumbPreview" alt="Preview da thumb">
+              <p id="thumbInfo">Nenhuma thumb gerada ainda.</p>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="generateThumbBtn" type="button" class="primary">Gerar/Substituir thumb</button>
+            <button id="registerCardBtn" type="button">Registrar/atualizar card no posts.js</button>
+            <button type="button" data-copy="/assets/img/posts/{slug}/thumb.jpg">Copiar caminho da thumb</button>
+            <button type="button" data-copy="/assets/img/posts/{slug}/og.jpg">Copiar caminho da imagem OG</button>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step="3">
+          <div class="panel-title">
+            <div>
+              <span class="eyebrow">Etapa 3</span>
+              <h2>Imagens internas</h2>
+            </div>
+          </div>
+          <label class="drop-zone">Adicionar imagens internas
+            <input id="internalImages" type="file" accept="image/*" multiple>
+          </label>
+          <div class="actions">
+            <button id="saveInternalBtn" type="button" class="primary">Salvar imagens internas</button>
+          </div>
+          <div id="internalList" class="image-list"></div>
+        </section>
+
+        <section class="step-panel" data-step="4">
+          <div class="panel-title">
+            <div>
+              <span class="eyebrow">Etapa 4</span>
+              <h2>Conteudo HTML</h2>
+            </div>
+          </div>
+          <div class="tool-row">
+            <button type="button" data-insert="p">Paragrafo</button>
+            <button type="button" data-insert="h2">H2</button>
+            <button type="button" data-insert="h3">H3</button>
+            <button type="button" data-insert="image">Imagem</button>
+            <button type="button" data-insert="ad">Anuncio</button>
+            <button type="button" data-insert="readalso">Leia tambem</button>
+            <button type="button" data-insert="list">Lista</button>
+            <button type="button" data-insert="quote">Quote</button>
+          </div>
+          <textarea id="articleContent" rows="20" placeholder="<article class=&quot;article-content&quot;>..."></textarea>
+          <p class="notice">O Studio envolve automaticamente o conteudo em <code>&lt;article class="article-content"&gt;</code> se voce colar apenas o miolo.</p>
+        </section>
+
+        <section class="step-panel" data-step="5">
+          <div class="panel-title">
+            <div>
+              <span class="eyebrow">Etapa 5</span>
+              <h2>Publicar</h2>
+            </div>
+            <div class="actions">
+              <button id="prepublishCheckBtn" type="button" class="primary">Checar pré-publicação</button>
+              <button id="publishBtn" type="button" class="danger">Publicar artigo</button>
+              <button id="deleteCurrentPostBtn" type="button">Excluir post atual</button>
+            </div>
+          </div>
+          <div id="publishChecks" class="check-results"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="verifyPanel" class="panel hidden">
+      <div class="panel-title">
+        <div>
+          <span class="eyebrow">Verificador</span>
+          <h2>Resultado do projeto</h2>
+        </div>
+      </div>
+      <div id="verifyResults" class="check-results"></div>
+    </section>
+  </main>
+
+  <template id="logTemplate"><div class="log-line"></div></template>
+  <script src="./studio.js"></script>
+</body>
+</html>

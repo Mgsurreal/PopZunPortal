@@ -1,0 +1,12 @@
+COMO PUBLICAR NO GITHUB + CLOUDFLARE PAGES
+=========================================
+
+1. Crie um repositório no GitHub.
+2. Suba todos os arquivos da pasta popzun-portal-v5.
+3. Entre no Cloudflare Pages.
+4. Conecte o repositório.
+5. Build command: deixe vazio.
+6. Output directory: deixe vazio ou use / se a interface pedir.
+7. Deploy.
+
+Como é HTML estático, não precisa PHP, banco, WordPress nem build.
