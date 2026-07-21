@@ -214,6 +214,28 @@
     });
   }
 
+  function setupLocalAdminLink(){
+    const isLocal =
+      window.location.protocol === 'file:' ||
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1';
+    const isHome = window.location.protocol === 'file:'
+      ? /(?:^|[\\/])index\.html$/i.test(window.location.pathname)
+      : window.location.pathname === '/' || window.location.pathname === '/index.html';
+    if(!isLocal || !isHome || $('[data-local-admin-link]')) return;
+
+    const footerLinks = $('.footer-links');
+    if(!footerLinks) return;
+
+    const link = document.createElement('a');
+    link.href = window.location.protocol === 'file:' ? './popzun-studio/index.html' : '/popzun-studio/';
+    link.textContent = 'ADM';
+    link.setAttribute('data-local-admin-link', '');
+    link.setAttribute('rel', 'nofollow');
+    link.setAttribute('title', 'Abrir PopZun Studio');
+    footerLinks.appendChild(link);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     renderGrid();
     renderRelated();
@@ -223,5 +245,6 @@
     setupCookie();
     setupShare();
     highlightActiveNav();
+    setupLocalAdminLink();
   });
 })();

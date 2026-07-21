@@ -30,6 +30,7 @@
         </div>
         <div class="actions">
           <button id="openSiteBtn" type="button">Abrir site</button>
+          <button id="productionBtn" type="button" class="production-trigger">Central de Produção</button>
           <button id="newArticleBtn" type="button">Novo artigo</button>
           <button id="openArticleBtn" type="button">Abrir artigo existente</button>
           <button id="draftsBtn" type="button">Rascunhos</button>
@@ -59,6 +60,95 @@
           <div id="logBox" class="log"></div>
         </div>
       </div>
+    </section>
+
+    <section id="productionPanel" class="panel production-panel hidden">
+      <div class="panel-title">
+        <div>
+          <span class="eyebrow">Redação assistida</span>
+          <h2>Central de Produção</h2>
+          <p class="section-copy">Transforme sinais e ideias em pautas priorizadas. Nada é publicado sem sua aprovação.</p>
+        </div>
+        <div class="production-summary" aria-label="Resumo da produção">
+          <span><strong id="productionTotal">0</strong> pautas</span>
+          <span><strong id="productionReview">0</strong> em revisão</span>
+        </div>
+      </div>
+
+      <div class="production-entry">
+        <div class="form-grid production-form">
+          <label>Assunto ou tendência *
+            <input id="ideaTopic" placeholder="Ex.: série clássica voltou a viralizar">
+          </label>
+          <label>Fonte
+            <select id="ideaSource">
+              <option>Ideia editorial</option>
+              <option>Google Trends</option>
+              <option>YouTube</option>
+              <option>TikTok</option>
+              <option>Reddit</option>
+              <option>X</option>
+              <option>Notícias</option>
+            </select>
+          </label>
+          <label>Categoria
+            <select id="ideaCategory">
+              <option>Em Alta</option><option>Famosos</option><option>TV e Reality</option>
+              <option>Internet</option><option>Futebol</option><option>Culinária</option>
+              <option>Curiosidades</option><option>Polêmicas</option><option>Nostalgia</option><option>ZunZun</option>
+            </select>
+          </label>
+          <label>Crescimento percebido
+            <select id="ideaGrowth"><option value="1">Baixo</option><option value="2" selected>Médio</option><option value="3">Alto</option></select>
+          </label>
+          <label>Aderência ao PopZun
+            <select id="ideaFit"><option value="1">Baixa</option><option value="2">Média</option><option value="3" selected>Alta</option></select>
+          </label>
+          <label>Potencial de busca
+            <select id="ideaSeo"><option value="1">Baixo</option><option value="2" selected>Médio</option><option value="3">Alto</option></select>
+          </label>
+          <label>Tipo de pauta
+            <select id="ideaType">
+              <option value="auto">Detectar automaticamente</option>
+              <option value="fofoca">Fofoca e famosos</option><option value="novela">Novela, reality e séries</option>
+              <option value="morte">Morte e memória</option><option value="politica">Política</option>
+              <option value="relacionamento">Relacionamentos</option><option value="futebol">Futebol e personalidades</option>
+              <option value="horoscopo">Horóscopo e inspiração</option><option value="receita">Receitas e facilidades</option>
+              <option value="saude">Saúde e bem-estar</option><option value="viagem">Viagem</option>
+              <option value="ciencia">Ciência e tecnologia</option><option value="estranho">Estranho, curioso e surpreendente</option>
+              <option value="frases">Frases e significados</option><option value="artesanato">Artesanato e faça você mesmo</option>
+            </select>
+          </label>
+          <label>Situação da informação
+            <select id="ideaVerification">
+              <option value="needs-check" selected>Precisa ser confirmada</option>
+              <option value="confirmed">Confirmada por fontes confiáveis</option>
+              <option value="rumor">Rumor / não publicar</option>
+            </select>
+          </label>
+        </div>
+        <fieldset class="platform-signals">
+          <legend>Onde o povo está falando?</legend>
+          <label><input type="checkbox" value="google" data-idea-platform> Google</label>
+          <label><input type="checkbox" value="facebook" data-idea-platform> Facebook</label>
+          <label><input type="checkbox" value="tiktok" data-idea-platform> TikTok</label>
+          <label><input type="checkbox" value="youtube" data-idea-platform> YouTube</label>
+          <label><input type="checkbox" value="instagram" data-idea-platform> Instagram</label>
+          <label><input type="checkbox" value="x" data-idea-platform> X</label>
+          <label><input type="checkbox" value="reddit" data-idea-platform> Reddit</label>
+          <label><input type="checkbox" value="noticias" data-idea-platform> Portais de notícias</label>
+        </fieldset>
+        <label>Contexto editorial
+          <textarea id="ideaNotes" rows="3" placeholder="O que aconteceu, por que merece pauta e qual ângulo devemos evitar ou explorar?"></textarea>
+        </label>
+        <div class="actions">
+          <button id="fetchTrendsBtn" type="button" class="primary">Vasculhar o que está bombando</button>
+          <button id="addIdeaBtn" type="button" class="primary">Adicionar e avaliar pauta</button>
+        </div>
+        <p id="robotsStatus" class="notice compact">Robôs locais prontos. Para buscar tendências reais, abra o PopZun pelo lançador local.</p>
+      </div>
+
+      <div id="productionBoard" class="production-board" aria-live="polite"></div>
     </section>
 
     <section id="existingPanel" class="panel hidden">

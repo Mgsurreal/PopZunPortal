@@ -2,6 +2,40 @@
 
 PopZun Studio e um CMS local para criar artigos no PopZun Portal V6 sem transformar o site em sistema dinamico. O site final continua 100% estatico: HTML, CSS e JavaScript puro.
 
+## Central de Produção (MVP)
+
+O dashboard agora possui uma Central de Produção local para organizar o trabalho editorial antes de abrir o artigo no publicador.
+
+1. Cadastre um assunto ou tendência, sua fonte, categoria e contexto.
+2. Avalie crescimento, aderência ao PopZun e potencial de busca.
+3. O Studio calcula uma prioridade de 4 a 12 pontos.
+4. Avance a pauta pelo fluxo: Tendências, Pautas aprovadas, Em produção e Aguardando revisão.
+5. Em **Gerar rascunho**, o Studio prepara título, resumo, slug, tags e um roteiro HTML no editor existente.
+6. Revise e apure o conteúdo. O MVP nunca publica automaticamente.
+
+As pautas ficam no armazenamento local do navegador. A integração futura com fontes externas e modelos de IA deve alimentar este mesmo quadro, preservando a aprovação humana.
+
+### Filtro viral popular
+
+Cada pauta recebe uma força de 0 a 100 e uma classificação: **Descartar**, **Informativa**, **Promissora** ou **Viral**. A pontuação combina crescimento, aderência, busca, apelo popular e quantidade de plataformas nas quais o assunto apareceu.
+
+O editor pode registrar sinais de Google, Facebook, TikTok, YouTube, Instagram, X, Reddit e portais de notícias. Pautas sobre política, saúde, mortes, crimes, acusações ou vida íntima recebem aviso de apuração obrigatória e não avançam como rumor.
+
+A linha editorial completa está em `documentacao-popzun/14-linha-editorial-popular.md`.
+
+### Robôs locais
+
+Use `INICIAR-POPZUN-STUDIO.cmd` na raiz do projeto. Ele inicia um servidor restrito a `127.0.0.1`, abre a Home e habilita o botão **Buscar tendências reais**.
+
+- **Caçador de Pautas:** consulta o feed público do Google Trends Brasil.
+- **Radar Popular:** consulta também pesquisas editoriais recentes em notícias sobre famosos, novelas, política, futebol, cinema, música, receitas, saúde, ciência, viagem e assuntos estranhos.
+- **Analista Editorial:** remove duplicidades e calcula prioridade.
+- **Redator:** converte a pauta aprovada em roteiro editorial no Studio.
+
+Os robôs não publicam sozinhos. A análise de aderência e a apuração dos fatos continuam exigindo revisão humana.
+
+Sem APIs de redes sociais, Facebook, TikTok, Instagram, YouTube, X e Reddit funcionam como sinais registrados pelo editor. Não confunda ausência de integração automática com ausência de relevância: quando o editor percebe um assunto nessas plataformas, deve marcá-las na ficha para aumentar a força viral.
+
 ## Como abrir
 
 Abra `popzun-studio/index.html` no Chrome ou Edge. O Studio usa a File System Access API, entao precisa rodar em navegador compativel e com permissao para selecionar pastas locais.

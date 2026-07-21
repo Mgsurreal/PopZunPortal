@@ -3,6 +3,7 @@
   const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
   const canUseFs = "showDirectoryPicker" in window;
   const storageKey = "popzunStudio.currentArticle.v2";
+  const productionStorageKey = "popzunStudio.production.v1";
   const projectStoreName = "popzunStudioProject";
   const categories = {
     "Em Alta": "em-alta",
@@ -50,7 +51,8 @@
     posts: [],
     config: { siteUrl: "https://popzun.com.br", defaultAuthor: "Redacao PopZun" },
     currentArticle: blankArticle(),
-    drafts: []
+    drafts: [],
+    production: []
   };
 
   const els = {
@@ -60,6 +62,7 @@
     wizardPanel: $("#wizardPanel"),
     existingPanel: $("#existingPanel"),
     draftsPanel: $("#draftsPanel"),
+    productionPanel: $("#productionPanel"),
     verifyPanel: $("#verifyPanel"),
     existingList: $("#existingList"),
     draftsList: $("#draftsList"),
@@ -69,6 +72,259 @@
     thumbInfo: $("#thumbInfo"),
     internalList: $("#internalList")
   };
+
+  const productionStages = [
+    ["ideas", "Tendências"],
+    ["approved", "Pautas aprovadas"],
+    ["drafting", "Em produção"],
+    ["review", "Aguardando revisão"]
+  ];
+
+  function loadProduction(){
+    try{ state.production = JSON.parse(localStorage.getItem(productionStorageKey) || "[]"); }
+    catch(e){ state.production = []; }
+    const exampleSlugs = new Set([
+      "programa-classico-volta-a-chamar-atencao-nas-redes",
+      "detalhe-curioso-em-video-desperta-teorias-do-publico",
+      "receita-simples-de-familia-ganha-nova-versao-viral"
+    ]);
+    const unique = new Map();
+    state.production.forEach(item => {
+      const key = slugify(item.topic);
+      if(!key) return;
+      if(exampleSlugs.has(key) || item.example) return;
+      const current = unique.get(key);
+      if(!current || (!current.sourceUrl && item.sourceUrl)) unique.set(key, item);
+    });
+    state.production = Array.from(unique.values());
+    localStorage.setItem(productionStorageKey, JSON.stringify(state.production));
+    renderProduction();
+  }
+
+  function saveProduction(){
+    localStorage.setItem(productionStorageKey, JSON.stringify(state.production));
+    renderProduction();
+  }
+
+  const viralTerms = /morreu|morte|esc[aâ]ndalo|pol[eê]mica|separou|separa[cç][aã]o|namoro|casamento|trai[cç][aã]o|novela|reality|bbb|viral|mist[eé]rio|surpreendeu|revelou|antes e depois|sem maquiagem|pris[aã]o|briga|confus[aã]o|famos|cantor|cantora|ator|atriz|jogador|lula|bolsonaro|janja|hor[oó]scopo|signo/i;
+  const sensitiveTerms = /morreu|morte|assassin|suic[ií]d|lula|bolsonaro|janja|maluf|presidente|elei[cç][aã]o|governo|cura|c[aâ]ncer|doen[cç]a|tratamento|gay|l[eé]sbica|bissexual|trans|orienta[cç][aã]o sexual/i;
+
+  function ideaScore(item){
+    const platformCount = new Set(item.platforms || []).size;
+    const base = ({1:5,2:12,3:20}[Number(item.growth || 1)] || 5)
+      + ({1:5,2:12,3:20}[Number(item.fit || 1)] || 5)
+      + ({1:4,2:8,3:12}[Number(item.seo || 1)] || 4);
+    const multiPlatform = Math.min(36, platformCount * 6);
+    const popularAppeal = viralTerms.test(`${item.topic} ${item.notes || ""}`) ? 12 : 3;
+    return Math.min(100, base + multiPlatform + popularAppeal);
+  }
+
+  function viralClass(score){
+    if(score >= 75) return { label:"Viral", className:"viral-badge" };
+    if(score >= 55) return { label:"Promissora", className:"promising-badge" };
+    if(score >= 35) return { label:"Informativa", className:"informative-badge" };
+    return { label:"Descartar", className:"discard-badge" };
+  }
+
+  function requiresStrictVerification(item){
+    return sensitiveTerms.test(`${item.topic} ${item.notes || ""}`) || ["morte","politica","saude"].includes(item.type);
+  }
+
+  function canApproveIdea(item){
+    if(item.verification === "rumor") return false;
+    if(requiresStrictVerification(item) && item.verification !== "confirmed") return false;
+    return true;
+  }
+
+  function createEditorialStructure(item){
+    const topic = item.topic.trim();
+    const category = item.category || "Em Alta";
+    const sensitive = requiresStrictVerification(item);
+    const isUseful = /receita|viagem|sa[uú]de|artesanato|hor[oó]scopo/i.test(`${item.type} ${category} ${topic}`);
+    const angle = isUseful
+      ? `Entregar uma resposta prática sobre “${topic}”, explicando o contexto sem prometer o que as fontes não comprovam.`
+      : `Explicar por que “${topic}” ganhou atenção, separar fatos de reação pública e mostrar o que realmente está confirmado.`;
+    return {
+      createdAt: new Date().toISOString(),
+      angle,
+      titles: [
+        `${topic}: entenda o que aconteceu`,
+        `Por que ${topic.toLowerCase()} virou assunto`,
+        `${topic}: o que se sabe até agora`
+      ],
+      summary: `Uma apuração direta sobre ${topic.toLowerCase()}, com contexto, fatos confirmados e a repercussão do assunto.`,
+      sections: isUseful
+        ? ["O que você precisa saber", "Como funciona na prática", "Cuidados e informações importantes", "Resumo rápido"]
+        : ["O que aconteceu", "Por que o assunto ganhou atenção", "O que está confirmado", "O que ainda precisa de confirmação", "O que pode acontecer agora"],
+      sources: [
+        item.sourceUrl ? "Abrir e conferir a fonte encontrada" : "Localizar a fonte original da informação",
+        "Cruzar os fatos principais com uma segunda fonte confiável",
+        sensitive ? "Priorizar documento, declaração ou canal oficial" : "Procurar declaração ou publicação original"
+      ],
+      image: item.sourceUrl
+        ? "Verificar licença e crédito da foto da fonte; se não houver permissão clara, usar imagem licenciada, material oficial ou ilustração gerada."
+        : "Buscar imagem licenciada ou material oficial; uma ilustração gerada pode ser usada se estiver claramente identificada.",
+      risk: sensitive
+        ? "Tema sensível: não publicar acusações, diagnóstico, morte, orientação pessoal ou fala política sem confirmação explícita."
+        : "Não copiar o texto da fonte nem apresentar comentários, rumores ou interpretação como fato.",
+      cta: `Leia também outras notícias de ${category.toLowerCase()} no PopZun.`
+    };
+  }
+
+  function structureHtml(structure){
+    if(!structure) return "";
+    return `<details class="idea-structure" open>
+      <summary>Estrutura criada</summary>
+      <p><strong>Ângulo:</strong> ${escapeHtml(structure.angle)}</p>
+      <p><strong>Títulos:</strong></p><ol>${structure.titles.map(title => `<li>${escapeHtml(title)}</li>`).join("")}</ol>
+      <p><strong>Blocos:</strong> ${structure.sections.map(escapeHtml).join(" · ")}</p>
+      <p><strong>Imagem:</strong> ${escapeHtml(structure.image)}</p>
+      <p><strong>Alerta:</strong> ${escapeHtml(structure.risk)}</p>
+    </details>`;
+  }
+
+  function addProductionIdea(data){
+    const item = Object.assign({
+      id: `pauta-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      stage: "ideas", createdAt: new Date().toISOString()
+    }, data);
+    item.score = ideaScore(item);
+    state.production.unshift(item);
+    saveProduction();
+    log(`Pauta adicionada à Central de Produção: ${item.topic}`);
+  }
+
+  async function fetchRealTrends(){
+    const status = $("#robotsStatus");
+    status.className = "notice compact";
+    status.textContent = "Caçador vasculhando tendências, famosos, novelas, política, futebol, ciência, receitas, viagens e notícias estranhas...";
+    const response = await fetch("/api/discover");
+    if(!response.ok) throw new Error("O servidor dos robôs não respondeu. Abra pelo lançador INICIAR-POPZUN-STUDIO.cmd.");
+    const payload = await response.json();
+    const existing = new Set(state.production.map(item => slugify(item.topic)));
+    let added = 0;
+    const imported = [];
+    payload.items.forEach(found => {
+      if(existing.has(slugify(found.title))) return;
+      const traffic = Number(String(found.traffic || "0").replace(/[^0-9]/g, "")) || 0;
+      const fromTrend = (found.platforms || []).includes("google");
+      const item = {
+        id: `pauta-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        stage: "ideas",
+        createdAt: new Date().toISOString(),
+        topic: found.title,
+        source: found.source || "Radar Popular",
+        category: found.category || "Em Alta",
+        growth: traffic >= 10000 ? 3 : traffic >= 1000 ? 2 : 1,
+        fit: 2,
+        seo: fromTrend && traffic >= 1000 ? 3 : 2,
+        notes: fromTrend
+          ? `Volume aproximado: ${found.traffic || "não informado"}. Pesquisar contexto e confirmar os fatos antes da produção.`
+          : `${found.sourceName ? `Fonte encontrada: ${found.sourceName}. ` : ""}Cruzar com outras fontes antes de aprovar.`,
+        sourceUrl: found.link || "",
+        platforms: found.platforms || ["noticias"],
+        type: "auto",
+        verification: found.verification || "needs-check"
+      };
+      item.score = ideaScore(item);
+      imported.push(item);
+      existing.add(slugify(found.title));
+      added++;
+    });
+    state.production.unshift(...imported);
+    saveProduction();
+    status.className = "notice compact";
+    const warning = payload.errors && payload.errors.length ? ` ${payload.errors.length} fonte(s) não responderam.` : "";
+    status.textContent = `Caçador trouxe ${added} pautas novas de ${payload.profiles ? payload.profiles.length + 1 : "várias"} frentes. O Analista já classificou a força viral.${warning}`;
+    log(`Robôs importaram ${added} sinais do Radar Popular.`);
+  }
+
+  function readIdeaForm(){
+    const topic = $("#ideaTopic").value.trim();
+    if(!topic) throw new Error("Informe o assunto ou tendência.");
+    return {
+      topic,
+      source: $("#ideaSource").value,
+      category: $("#ideaCategory").value,
+      growth: Number($("#ideaGrowth").value),
+      fit: Number($("#ideaFit").value),
+      seo: Number($("#ideaSeo").value),
+      type: $("#ideaType").value,
+      verification: $("#ideaVerification").value,
+      platforms: $$('[data-idea-platform]:checked').map(input => input.value),
+      notes: $("#ideaNotes").value.trim()
+    };
+  }
+
+  function renderProduction(){
+    const board = $("#productionBoard");
+    if(!board) return;
+    $("#productionTotal").textContent = state.production.length;
+    $("#productionReview").textContent = state.production.filter(item => item.stage === "review").length;
+    board.innerHTML = productionStages.map(([stage, label]) => {
+      const items = state.production.filter(item => item.stage === stage).sort((a,b) => (b.score || 0) - (a.score || 0));
+      const cards = items.map(item => {
+        item.score = ideaScore(item);
+        const classification = viralClass(item.score);
+        const strict = requiresStrictVerification(item);
+        const verified = item.verification === "confirmed";
+        return `
+          <article class="idea-card">
+            <h4>${escapeHtml(item.topic)}</h4>
+            <div class="idea-meta"><span>${escapeHtml(item.source)}</span><span>${escapeHtml(item.category)}</span><span class="idea-score">Força ${item.score}/100</span><span class="${classification.className}">${classification.label}</span></div>
+            <div class="idea-meta">${(item.platforms || []).map(platform => `<span>${escapeHtml(platform)}</span>`).join("")}${strict ? `<span class="${verified ? "verified-badge" : "policy-badge"}">${verified ? "Fonte confirmada" : "Apuração obrigatória"}</span>` : ""}</div>
+            ${item.notes ? `<p>${escapeHtml(item.notes)}</p>` : ""}
+            ${structureHtml(item.structure)}
+            <div class="actions">
+              ${item.sourceUrl ? `<button data-idea-source="${item.id}">Abrir fonte</button>` : ""}
+              ${item.verification !== "confirmed" ? `<button data-idea-confirm="${item.id}">Confirmei em fontes</button>` : ""}
+              ${stage !== "ideas" ? `<button data-idea-back="${item.id}">Voltar</button>` : ""}
+              ${stage !== "review" ? `<button class="primary" data-idea-next="${item.id}">${stage === "approved" ? "Criar estrutura" : stage === "drafting" ? "Gerar rascunho" : "Avançar"}</button>` : `<button class="primary" data-idea-open="${item.id}">Abrir no editor</button>`}
+              <button class="ghost-danger" data-idea-delete="${item.id}">Excluir</button>
+            </div>
+          </article>`;
+      }).join("");
+      return `<section class="kanban-column"><div class="kanban-heading"><h3>${label}</h3><span>${items.length}</span></div><div class="kanban-list">${cards || '<div class="empty-column">Nenhuma pauta nesta etapa.</div>'}</div></section>`;
+    }).join("");
+  }
+
+  function moveProductionIdea(id, direction){
+    const item = state.production.find(entry => entry.id === id);
+    if(!item) return;
+    const index = productionStages.findIndex(([stage]) => stage === item.stage);
+    if(direction > 0 && item.stage === "ideas" && !canApproveIdea(item)){
+      throw new Error("Esta pauta envolve informação sensível ou rumor. Confirme em fontes confiáveis e marque como confirmada antes de aprovar.");
+    }
+    item.stage = productionStages[Math.max(0, Math.min(productionStages.length - 1, index + direction))][0];
+    item.updatedAt = new Date().toISOString();
+    saveProduction();
+  }
+
+  function articleFromIdea(item){
+    const structure = item.structure || createEditorialStructure(item);
+    const sections = structure.sections.map(section => `  <h2>${escapeHtml(section)}</h2>\n  <p>[Escreva este bloco apenas com informações verificadas e cite a origem quando necessário.]</p>`).join("\n\n");
+    return Object.assign(blankArticle(), {
+      title: item.topic,
+      desc: structure.summary,
+      category: item.category,
+      slug: slugify(item.topic),
+      tags: [item.category, item.source, "PopZun"].map(slugify),
+      author: state.config.defaultAuthor || "Redacao PopZun",
+      content: `<article class="article-content">\n  <p><strong>Orientação editorial:</strong> ${escapeHtml(structure.angle)}</p>\n  <p><strong>Imagem:</strong> ${escapeHtml(structure.image)}</p>\n  <p><strong>Atenção:</strong> ${escapeHtml(structure.risk)}</p>\n\n${sections}\n\n  <p><strong>${escapeHtml(structure.cta)}</strong></p>\n</article>`,
+      productionIdeaId: item.id,
+      productionSource: item.source
+    });
+  }
+
+  async function openProductionIdea(id){
+    const item = state.production.find(entry => entry.id === id);
+    if(!item) return;
+    state.currentArticle = articleFromIdea(item);
+    localStorage.setItem(storageKey, JSON.stringify(state.currentArticle));
+    fillForm(state.currentArticle);
+    showStep(1);
+    log(`Rascunho editorial preparado a partir da pauta: ${item.topic}`);
+  }
 
   function log(message){
     const line = document.createElement("div");
@@ -108,7 +364,7 @@
   }
 
   function showPanel(panel){
-    [els.wizardPanel, els.existingPanel, els.draftsPanel, els.verifyPanel].forEach(el => el.classList.add("hidden"));
+    [els.wizardPanel, els.existingPanel, els.draftsPanel, els.productionPanel, els.verifyPanel].forEach(el => el.classList.add("hidden"));
     panel.classList.remove("hidden");
     scrollToPanel(panel);
   }
@@ -1103,6 +1359,48 @@
     try{
       if(button.id === "selectProjectBtn") await selectProject();
       else if(button.id === "newArticleBtn") newArticle();
+      else if(button.id === "productionBtn") showPanel(els.productionPanel);
+      else if(button.id === "addIdeaBtn"){
+        addProductionIdea(readIdeaForm());
+        $("#ideaTopic").value = "";
+        $("#ideaNotes").value = "";
+      }
+      else if(button.id === "fetchTrendsBtn") await fetchRealTrends();
+      else if(button.dataset.ideaNext){
+        const item = state.production.find(entry => entry.id === button.dataset.ideaNext);
+        if(item && item.stage === "approved"){
+          item.structure = createEditorialStructure(item);
+          item.stage = "drafting";
+          item.updatedAt = new Date().toISOString();
+          saveProduction();
+          log(`Estrutura editorial criada para: ${item.topic}`);
+        }else if(item && item.stage === "drafting"){
+          item.stage = "review";
+          saveProduction();
+          await openProductionIdea(item.id);
+        }else moveProductionIdea(button.dataset.ideaNext, 1);
+      }
+      else if(button.dataset.ideaBack) moveProductionIdea(button.dataset.ideaBack, -1);
+      else if(button.dataset.ideaSource){
+        const item = state.production.find(entry => entry.id === button.dataset.ideaSource);
+        if(item && item.sourceUrl) window.open(item.sourceUrl, "_blank", "noopener");
+      }
+      else if(button.dataset.ideaConfirm){
+        const item = state.production.find(entry => entry.id === button.dataset.ideaConfirm);
+        if(item){
+          item.verification = "confirmed";
+          item.updatedAt = new Date().toISOString();
+          saveProduction();
+          log(`Pauta marcada como confirmada pelo editor: ${item.topic}`);
+        }
+      }
+      else if(button.dataset.ideaOpen) await openProductionIdea(button.dataset.ideaOpen);
+      else if(button.dataset.ideaDelete){
+        if(confirm("Excluir esta pauta da Central de Produção?")){
+          state.production = state.production.filter(item => item.id !== button.dataset.ideaDelete);
+          saveProduction();
+        }
+      }
       else if(button.id === "openSiteBtn") openSite();
       else if(button.id === "openArticleBtn") await openExistingPanel();
       else if(button.id === "draftsBtn") await showDrafts();
@@ -1140,6 +1438,7 @@
   });
 
   loadLocalDraft();
+  loadProduction();
   $("#siteUrl").value = state.config.siteUrl;
   $("#defaultAuthor").value = state.config.defaultAuthor;
   fillForm(state.currentArticle);
