@@ -5,6 +5,21 @@
     "Famosos":"famosos", "TV e Reality":"tv-e-reality", "Internet":"internet", "Futebol":"futebol", "Culinária":"culinaria",
     "Curiosidades":"curiosidades", "Polêmicas":"polemicas", "Nostalgia":"nostalgia"
   };
+  const FIRST_OFFICIAL_DATE = new Date(2026, 6, 21);
+  const PRESERVED_ARTICLES = new Set([
+    "bonnie-tyler-morre-aos-75-anos-e-internet-relembra-musica-que-marcou-geracoes"
+  ]);
+
+  function isOfficialPost(post){
+    if(PRESERVED_ARTICLES.has(post.slug)) return true;
+    const parts = String(post.date || "").split("/").map(Number);
+    if(parts.length !== 3 || parts.some(Number.isNaN)) return false;
+    return new Date(parts[2], parts[1] - 1, parts[0]) >= FIRST_OFFICIAL_DATE;
+  }
+
+  function officialPosts(){
+    return (window.POSTS || (typeof POSTS !== "undefined" ? POSTS : [])).filter(isOfficialPost);
+  }
 
   function categoryUrl(category){
     if(category === 'ZunZun') return '/zunzun/';
@@ -29,7 +44,7 @@
   }
 
   function pickPosts(mode, grid){
-    let posts = (window.POSTS || POSTS || []).slice();
+    let posts = officialPosts();
     if(mode === 'trending') posts = posts.filter(p => p.trending);
     if(mode === 'recent') posts = posts.filter(p => p.recent);
     if(mode === 'category') posts = posts.filter(p => p.category === grid.dataset.category);
@@ -56,8 +71,9 @@
     const related = $('[data-related]');
     if(!related || typeof POSTS === 'undefined') return;
     const current = document.body.dataset.slug;
-    const currentPost = POSTS.find(p => p.slug === current);
-    let pool = POSTS.filter(p => p.slug !== current);
+    const visiblePosts = officialPosts();
+    const currentPost = visiblePosts.find(p => p.slug === current);
+    let pool = visiblePosts.filter(p => p.slug !== current);
     if(currentPost){
       const same = pool.filter(p => p.category === currentPost.category);
       const rest = pool.filter(p => p.category !== currentPost.category);
@@ -101,7 +117,7 @@
         const grid = $('[data-post-grid]');
         if(!grid || typeof POSTS === 'undefined') return;
         if(!q){ renderGrid(); return; }
-        const found = POSTS.filter(p => `${p.title} ${p.desc} ${p.category} ${(p.tags || []).join(' ')}`.toLowerCase().includes(q));
+        const found = officialPosts().filter(p => `${p.title} ${p.desc} ${p.category} ${(p.tags || []).join(' ')}`.toLowerCase().includes(q));
         grid.innerHTML = found.length ? found.map(p => cardTemplate(p)).join('') : `<div class="empty">Nada encontrado para: <strong>${q}</strong></div>`;
       });
     }
