@@ -1,4 +1,4 @@
-const MODELO = "@cf/meta/llama-3.2-3b-instruct";
+const MODELO = "@cf/meta/llama-3.1-8b-instruct-fast";
 const SIGNOS = [
   "aries", "touro", "gemeos", "cancer", "leao", "virgem",
   "libra", "escorpiao", "sagitario", "capricornio", "aquario", "peixes"
@@ -66,12 +66,30 @@ Inclua exatamente estas 12 chaves: ${SIGNOS.join(", ")}. Não repita frases entr
       { role: "system", content: "Você é um redator cuidadoso. Obedeça ao formato JSON solicitado e escreva de modo natural." },
       { role: "user", content: prompt }
     ],
+    response_format: criarSchemaDeResposta(),
     max_tokens: 2200,
     temperature: 0.75
   });
-  const texto = typeof resposta === "string" ? resposta : resposta.response;
-  const json = extrairJson(texto);
+  const conteudo = typeof resposta === "string" ? resposta : resposta.response;
+  const json = typeof conteudo === "string" ? extrairJson(conteudo) : conteudo;
   return { data, geradoEm: new Date().toISOString(), fonte: "Workers AI", signos: json.signos };
+}
+
+function criarSchemaDeResposta() {
+  const campos = {
+    geral: { type: "string" }, amor: { type: "string" }, trabalho: { type: "string" },
+    bemEstar: { type: "string" }, conselho: { type: "string" }, cor: { type: "string" },
+    numero: { type: "string" }, periodo: { type: "string" }
+  };
+  const signo = { type: "object", properties: campos, required: Object.keys(campos) };
+  return {
+    type: "json_schema",
+    json_schema: {
+      type: "object",
+      properties: { signos: { type: "object", properties: Object.fromEntries(SIGNOS.map(nome => [nome, signo])), required: SIGNOS } },
+      required: ["signos"]
+    }
+  };
 }
 
 function extrairJson(texto) {
@@ -125,7 +143,7 @@ function respostaCors(body, status, headers = {}) {
     status,
     headers: {
       ...headers,
-      "access-control-allow-origin": "https://popzun.com.br",
+      "access-control-allow-origin": "*",
       "access-control-allow-methods": "GET, OPTIONS",
       "cache-control": "public, max-age=300, s-maxage=3600"
     }

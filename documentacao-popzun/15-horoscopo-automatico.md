@@ -47,7 +47,7 @@ As chaves dos signos são: `aries`, `touro`, `gemeos`, `cancer`, `leao`, `virgem
 
 ## Consumo controlado
 
-- Modelo pequeno: `@cf/meta/llama-3.2-3b-instruct`.
+- Modelo rápido com JSON estruturado: `@cf/meta/llama-3.1-8b-instruct-fast`.
 - Uma chamada por dia, nunca uma chamada por visitante ou por signo.
 - Um único objeto diário no KV, com expiração em 48 horas.
 - Cópia do último resultado válido sem expiração para contingência.
