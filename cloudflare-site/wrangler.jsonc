@@ -1,0 +1,12 @@
+{
+  "$schema": "../cloudflare-horoscopo/node_modules/wrangler/config-schema.json",
+  "name": "popzun",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-04",
+  "workers_dev": true,
+  "assets": {
+    "directory": "../.popzun-public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/horoscopo/*"]
+  }
+}
