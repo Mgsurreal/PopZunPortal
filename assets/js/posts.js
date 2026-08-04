@@ -43,30 +43,6 @@ const POSTS = [
     ]
   },
   {
-    "slug": "9-situacoes-simples-que-irritam-qualquer-pessoa-mas-todo-mundo-finge-que-nao-liga",
-    "title": "9 situações simples que irritam qualquer pessoa, mas todo mundo finge que não liga",
-    "desc": "Algumas coisas pequenas do dia a dia parecem bobas, mas têm um talento enorme para acabar com a paciência de qualquer um.",
-    "category": "Curiosidades",
-    "date": "09/07/2026",
-    "emoji": "🔥",
-    "trending": true,
-    "recent": true,
-    "tags": [
-      "curiosidades",
-      "comportamento",
-      "cotidiano",
-      "internet",
-      "humor"
-    ],
-    "image": "/assets/img/posts/9-situacoes-simples-que-irritam-qualquer-pessoa-mas-todo-mundo-finge-que-nao-liga/thumb.jpg",
-    "reactions": [
-      "-",
-      "-",
-      "-",
-      "-"
-    ]
-  },
-  {
     "slug": "8-coisas-dos-anos-2000-que-sumiram-e-muita-gente-sente-falta-ate-hoje",
     "title": "8 coisas dos anos 2000 que sumiram e muita gente sente falta até hoje",
     "desc": "Alguns hábitos dos anos 2000 desapareceram quase sem avisar, mas ainda vivem na memória de quem passou por aquela época.",
@@ -612,28 +588,6 @@ const POSTS = [
       3,
       4,
       0
-    ]
-  },
-  {
-    "slug": "sinais-de-que-uma-treta-vai-comecar",
-    "title": "Sinais clássicos de que uma treta online está prestes a começar",
-    "desc": "Antes da discussão explodir, a internet quase sempre entrega alguns sinais bem conhecidos.",
-    "category": "Polêmicas",
-    "date": "02/07/2026",
-    "emoji": "⚡",
-    "trending": true,
-    "recent": false,
-    "tags": [
-      "treta",
-      "internet",
-      "comentários"
-    ],
-    "image": "/assets/img/posts/sinais-de-que-uma-treta-vai-comecar.jpg",
-    "reactions": [
-      1,
-      0,
-      9,
-      2
     ]
   }
 ];

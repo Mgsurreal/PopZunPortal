@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "popzun-horoscopo",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-03",
+  "workers_dev": true,
+  "ai": {
+    "binding": "AI"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "HOROSCOPO_DB",
+      "id": "COLE_AQUI_O_ID_DO_KV"
+    }
+  ],
+  "triggers": {
+    "crons": ["5 6 * * *"]
+  }
+}

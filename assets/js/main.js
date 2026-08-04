@@ -3,7 +3,7 @@
   const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
   const CATEGORIES = {
     "Famosos":"famosos", "TV e Reality":"tv-e-reality", "Internet":"internet", "Futebol":"futebol", "Culinária":"culinaria",
-    "Curiosidades":"curiosidades", "Polêmicas":"polemicas", "Nostalgia":"nostalgia"
+    "Curiosidades":"curiosidades", "Polêmicas":"polemicas", "Nostalgia":"nostalgia", "Horóscopo":"horoscopo"
   };
   const FIRST_OFFICIAL_DATE = new Date(2026, 6, 21);
   const PRESERVED_ARTICLES = new Set([
@@ -252,6 +252,22 @@
     footerLinks.appendChild(link);
   }
 
+  function setupHoroscopeLinks(){
+    const targets = [
+      { root: $('.nav'), before: '.live' },
+      { root: $('[data-mobile-panel]') },
+      { root: $('.quick-tags') }
+    ];
+    targets.forEach(({ root, before }) => {
+      if(!root || $('a[href="/horoscopo/"]', root)) return;
+      const link = document.createElement('a');
+      link.href = '/horoscopo/';
+      link.textContent = '🔮 Horóscopo';
+      const anchor = before ? $(before, root) : null;
+      root.insertBefore(link, anchor);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     renderGrid();
     renderRelated();
@@ -260,6 +276,7 @@
     setupBottomAd();
     setupCookie();
     setupShare();
+    setupHoroscopeLinks();
     highlightActiveNav();
     setupLocalAdminLink();
   });

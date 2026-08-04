@@ -13,6 +13,7 @@
     "Futebol": "futebol",
     "Culinária": "culinaria",
     "Curiosidades": "curiosidades",
+    "Horóscopo": "horoscopo",
     "Polêmicas": "polemicas",
     "Nostalgia": "nostalgia",
     "ZunZun": "zunzun"
