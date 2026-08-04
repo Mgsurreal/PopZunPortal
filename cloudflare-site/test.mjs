@@ -13,11 +13,14 @@ const pagina = `<!doctype html><html><head>
 <meta name="twitter:image" content="imagem">
 </head></html>`;
 
-globalThis.fetch = async () => Response.json({
+const respostaDoHoroscopo = async () => Response.json({
   signos: { gemeos: { geral: "Uma conversa abre caminhos.", conselho: "Escute antes de responder." } }
 });
 
-const env = { ASSETS: { fetch: async () => new Response(pagina, { headers: { "content-type": "text/html" } }) } };
+const env = {
+  ASSETS: { fetch: async () => new Response(pagina, { headers: { "content-type": "text/html" } }) },
+  HOROSCOPO: { fetch: respostaDoHoroscopo }
+};
 const resposta = await worker.fetch(new Request("https://popzun.surreal-marcosrg.workers.dev/horoscopo/?signo=gemeos"), env);
 const html = await resposta.text();
 

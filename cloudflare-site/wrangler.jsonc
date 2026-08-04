@@ -4,6 +4,12 @@
   "main": "src/index.js",
   "compatibility_date": "2026-08-04",
   "workers_dev": true,
+  "services": [
+    {
+      "binding": "HOROSCOPO",
+      "service": "popzun-horoscopo"
+    }
+  ],
   "assets": {
     "directory": "../.popzun-public",
     "binding": "ASSETS",

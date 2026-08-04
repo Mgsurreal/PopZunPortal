@@ -21,7 +21,7 @@ export default {
     const pagina = await env.ASSETS.fetch(request);
     if (!pagina.ok || !pagina.headers.get("content-type")?.includes("text/html")) return pagina;
 
-    const leitura = await obterLeitura(signo);
+    const leitura = await obterLeitura(signo, env);
     const nome = NOMES[signo];
     const titulo = `Horóscopo de ${nome} hoje | PopZun`;
     const descricao = leitura
@@ -48,9 +48,11 @@ export default {
   }
 };
 
-async function obterLeitura(signo) {
+async function obterLeitura(signo, env) {
   try {
-    const resposta = await fetch(HOROSCOPO_API, { cf: { cacheTtl: 1800, cacheEverything: true } });
+    const resposta = env.HOROSCOPO
+      ? await env.HOROSCOPO.fetch("https://horoscopo-interno/api/horoscopo")
+      : await fetch(HOROSCOPO_API, { cf: { cacheTtl: 1800, cacheEverything: true } });
     if (!resposta.ok) return null;
     const dados = await resposta.json();
     return dados?.signos?.[signo] || null;
