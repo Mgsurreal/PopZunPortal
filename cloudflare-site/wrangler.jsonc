@@ -7,6 +7,6 @@
   "assets": {
     "directory": "../.popzun-public",
     "binding": "ASSETS",
-    "run_worker_first": ["/horoscopo/*"]
+    "run_worker_first": true
   }
 }
