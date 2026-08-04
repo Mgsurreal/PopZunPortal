@@ -12,8 +12,9 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const signo = url.searchParams.get("signo");
+    const paginaDeHoroscopo = ["/horoscopo", "/horoscopo/", "/horoscopo/index.html"].includes(url.pathname);
 
-    if (request.method !== "GET" || url.pathname !== "/horoscopo/" || !NOMES[signo]) {
+    if (request.method !== "GET" || !paginaDeHoroscopo || !NOMES[signo]) {
       return env.ASSETS.fetch(request);
     }
 
