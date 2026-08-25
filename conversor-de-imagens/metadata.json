@@ -1,0 +1,6 @@
+{
+  "name": "Conversor de Imagens",
+  "description": "Conversor e redimensionador automático de imagens para PNG, JPG e WebP com presets, compressão e lote.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
