@@ -164,12 +164,18 @@
   }
 
   function loadConsentScripts(prefs){
-    if(prefs.analytics) loadAnalyticsScripts();
+    loadAnalyticsScripts(prefs);
     if(prefs.ads) loadPersonalizedAdScripts();
     if(prefs.affiliates) loadAffiliateScripts();
   }
 
-  function loadAnalyticsScripts(){}
+  function loadAnalyticsScripts(prefs){
+    if(typeof window.gtag === 'function'){
+      window.gtag('consent', 'update', {
+        analytics_storage: prefs.analytics ? 'granted' : 'denied'
+      });
+    }
+  }
   function loadPersonalizedAdScripts(){}
   function loadAffiliateScripts(){}
 

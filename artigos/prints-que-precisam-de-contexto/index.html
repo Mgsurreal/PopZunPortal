@@ -24,6 +24,25 @@
   <meta name="twitter:image:alt" content="Imagem ilustrativa: Prints que precisam de contexto, mas talvez fiquem melhores sem explica&#231;&#227;o">
   <link rel="icon" href="/assets/img/favicon.png">
   <link rel="stylesheet" href="/assets/css/style.css?v=cookies-mobile-20261009">
+
+  <!-- Google tag (gtag.js) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    (function(){
+      var analyticsAllowed = false;
+      try { analyticsAllowed = JSON.parse(localStorage.getItem('popzunCookiePreferences') || '{}').analytics === true; } catch (error) {}
+      gtag('consent', 'default', {
+        analytics_storage: analyticsAllowed ? 'granted' : 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-NNEVL7JC7H');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNEVL7JC7H"></script>
 </head>
 <body data-slug="prints-que-precisam-de-contexto">
   <div class="site-topbar"></div>
@@ -105,6 +124,6 @@
     <a class="cookie-policy-link" href="/cookies/">Ver Política de Cookies</a>
   </div>
   <script src="/assets/js/posts.js"></script>
-  <script src="/assets/js/main.js?v=cookies-mobile-20261009"></script>
+  <script src="/assets/js/main.js?v=analytics-20261009"></script>
 </body>
 </html>

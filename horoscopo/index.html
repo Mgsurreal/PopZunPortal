@@ -23,6 +23,25 @@
   <meta name="twitter:image" content="https://popzun.surreal-marcosrg.workers.dev/assets/img/horoscopo/horoscopo-do-dia-og.jpg">
   <link rel="icon" href="/assets/img/favicon.png">
   <link rel="stylesheet" href="/assets/css/style.css?v=cookies-mobile-20261009">
+
+  <!-- Google tag (gtag.js) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    (function(){
+      var analyticsAllowed = false;
+      try { analyticsAllowed = JSON.parse(localStorage.getItem('popzunCookiePreferences') || '{}').analytics === true; } catch (error) {}
+      gtag('consent', 'default', {
+        analytics_storage: analyticsAllowed ? 'granted' : 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-NNEVL7JC7H');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNEVL7JC7H"></script>
 </head>
 <body class="horoscope-page">
   <div class="site-topbar"></div>
@@ -73,6 +92,6 @@
   <footer class="footer"><div class="footer-inner"><div><strong>POPZUN</strong><br><span>O burburinho da internet.</span></div><div class="footer-links"><a href="/sobre/">Sobre</a><a href="/contato/">Contato</a><a href="/privacidade/">Privacidade</a><a href="/cookies/">Cookies</a><a href="/termos/">Termos</a></div></div></footer>
   <button class="cookie" data-cookie-btn aria-label="Preferências de cookies">Cookies</button>
   <div class="cookie-panel" data-cookie-panel><strong>Cookies</strong><p>Usamos cookies necessários para o site funcionar e, com sua permissão, cookies de analytics, publicidade e afiliados.</p><div class="cookie-actions"><button data-cookie-accept>Aceitar</button><button class="secondary" data-cookie-reject>Recusar</button></div></div>
-  <script src="/assets/js/posts.js"></script><script src="/assets/js/main.js?v=cookies-mobile-20261009"></script><script src="/assets/js/horoscopo.js"></script>
+  <script src="/assets/js/posts.js"></script><script src="/assets/js/main.js?v=analytics-20261009"></script><script src="/assets/js/horoscopo.js"></script>
 </body>
 </html>

@@ -32,6 +32,25 @@
     .sidebar{align-self:start;position:static}
     .pz-sidebar-ad,.pz-sidebar-ad #container-ee56b818931e11d16f3283e3c41a2b68{height:auto;max-height:none;overflow:visible;min-width:0}
   </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    (function(){
+      var analyticsAllowed = false;
+      try { analyticsAllowed = JSON.parse(localStorage.getItem('popzunCookiePreferences') || '{}').analytics === true; } catch (error) {}
+      gtag('consent', 'default', {
+        analytics_storage: analyticsAllowed ? 'granted' : 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-NNEVL7JC7H');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNEVL7JC7H"></script>
 </head>
 <body data-slug="caneta-azul-ester-muniz-megan-fox-brasileira">
   <div class="site-topbar"></div>
@@ -139,6 +158,6 @@
     <a class="cookie-policy-link" href="/cookies/">Ver Política de Cookies</a>
   </div>
   <script src="/assets/js/posts.js"></script>
-  <script src="/assets/js/main.js?v=cookies-mobile-20261009"></script>
+  <script src="/assets/js/main.js?v=analytics-20261009"></script>
 </body>
 </html>
