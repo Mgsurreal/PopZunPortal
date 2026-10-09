@@ -127,8 +127,21 @@
     const ad = $('[data-bottom-ad]');
     const close = $('[data-close-bottom-ad]');
     if(!ad || !close) return;
+    const updateCookiePosition = () => {
+      const visible = getComputedStyle(ad).display !== 'none';
+      const bottom = visible ? Math.max(12, window.innerHeight - ad.getBoundingClientRect().top + 10) : 12;
+      document.documentElement.style.setProperty('--cookie-mobile-bottom', `${bottom}px`);
+    };
     if(sessionStorage.getItem('bottomAdClosed') === '1') ad.style.display = 'none';
-    close.addEventListener('click', () => { ad.style.display = 'none'; sessionStorage.setItem('bottomAdClosed','1'); });
+    close.addEventListener('click', () => {
+      ad.style.display = 'none';
+      sessionStorage.setItem('bottomAdClosed','1');
+      updateCookiePosition();
+    });
+    updateCookiePosition();
+    window.addEventListener('resize', updateCookiePosition);
+    if(window.visualViewport) window.visualViewport.addEventListener('resize', updateCookiePosition);
+    if(typeof ResizeObserver !== 'undefined') new ResizeObserver(updateCookiePosition).observe(ad);
   }
 
   const cookieKey = 'popzunCookiePreferences';
