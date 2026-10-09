@@ -147,3 +147,7 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button,inp
     grid-template-columns: 1fr;
   }
 }
+
+/* Publicidade lateral: cresce com o conteúdo entregue pela rede. */
+.sidebar{position:static;align-self:start}
+.pz-sidebar-ad,.pz-sidebar-ad #container-ee56b818931e11d16f3283e3c41a2b68{height:auto;max-height:none;overflow:visible;min-width:0}
