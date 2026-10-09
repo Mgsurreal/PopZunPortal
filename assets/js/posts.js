@@ -1,5 +1,28 @@
 const POSTS = [
   {
+    "slug": "caneta-azul-ester-muniz-megan-fox-brasileira",
+    "title": "Caneta Azul aparece em clima de romance com a “Megan Fox brasileira”",
+    "desc": "Manoel Gomes e Ester Muniz se apresentam como casal nas redes. Vídeos têm declarações e carinho, mas não há confirmação de casamento.",
+    "category": "Famosos",
+    "date": "09/10/2026",
+    "emoji": "💙",
+    "trending": true,
+    "recent": true,
+    "tags": [
+      "Manoel Gomes",
+      "Caneta Azul",
+      "Ester Muniz",
+      "famosos"
+    ],
+    "image": "/assets/img/posts/caneta-azul-ester-muniz-megan-fox-brasileira/thumb.jpg",
+    "reactions": [
+      "-",
+      "-",
+      "-",
+      "-"
+    ]
+  },
+  {
     "slug": "7-receitas-de-air-fryer-que-salvam-qualquer-dia-corrido",
     "title": "7 receitas de air fryer que salvam qualquer dia corrido",
     "desc": "Ideias simples, rápidas e práticas para fazer na air fryer quando bate a fome e falta tempo.",
