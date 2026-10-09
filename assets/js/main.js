@@ -268,6 +268,42 @@
     });
   }
 
+  function setupProfilePhotos(){
+    const links = $$('.profile-photo-link');
+    if(!links.length || typeof HTMLDialogElement === 'undefined') return;
+    const dialog = document.createElement('dialog');
+    dialog.className = 'profile-photo-dialog';
+    dialog.setAttribute('aria-label', 'Foto de perfil ampliada');
+    const close = document.createElement('button');
+    close.className = 'profile-photo-close';
+    close.type = 'button';
+    close.textContent = '×';
+    close.setAttribute('aria-label', 'Fechar foto ampliada');
+    const image = document.createElement('img');
+    dialog.append(close, image);
+    document.body.appendChild(dialog);
+    let trigger = null;
+    let previousOverflow = '';
+    close.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => {
+      if(event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+      document.body.style.overflow = previousOverflow;
+      if(trigger) trigger.focus();
+    });
+    links.forEach(link => link.addEventListener('click', event => {
+      if(event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      trigger = link;
+      image.src = link.href;
+      image.alt = $('img', link)?.alt || 'Foto de perfil ampliada';
+      previousOverflow = document.body.style.overflow;
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    }));
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     renderGrid();
     renderRelated();
@@ -276,6 +312,7 @@
     setupBottomAd();
     setupCookie();
     setupShare();
+    setupProfilePhotos();
     setupHoroscopeLinks();
     highlightActiveNav();
     setupLocalAdminLink();
